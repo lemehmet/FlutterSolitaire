@@ -13,13 +13,7 @@ class GameScreen extends StatefulWidget {
 
 class _GameScreenState extends State<GameScreen> {
   // Stores the cards on the seven columns
-  List<PlayingCard> cardColumn1 = [];
-  List<PlayingCard> cardColumn2 = [];
-  List<PlayingCard> cardColumn3 = [];
-  List<PlayingCard> cardColumn4 = [];
-  List<PlayingCard> cardColumn5 = [];
-  List<PlayingCard> cardColumn6 = [];
-  List<PlayingCard> cardColumn7 = [];
+  List<List<PlayingCard>> cardColumns = [[]];
 
   // Stores the card deck
   List<PlayingCard> cardDeckClosed = [];
@@ -78,10 +72,10 @@ class _GameScreenState extends State<GameScreen> {
             children: <Widget>[
               Expanded(
                 child: CardColumn(
-                  cards: cardColumn1,
+                  cards: cardColumns[0],
                   onCardsAdded: (cards, index) {
                     setState(() {
-                      cardColumn1.addAll(cards);
+                      cardColumns[0].addAll(cards);
                       int length = _getListFromIndex(index).length;
                       _getListFromIndex(index)
                           .removeRange(length - cards.length, length);
@@ -93,10 +87,10 @@ class _GameScreenState extends State<GameScreen> {
               ),
               Expanded(
                 child: CardColumn(
-                  cards: cardColumn2,
+                  cards: cardColumns[1],
                   onCardsAdded: (cards, index) {
                     setState(() {
-                      cardColumn2.addAll(cards);
+                      cardColumns[1].addAll(cards);
                       int length = _getListFromIndex(index).length;
                       _getListFromIndex(index)
                           .removeRange(length - cards.length, length);
@@ -108,10 +102,10 @@ class _GameScreenState extends State<GameScreen> {
               ),
               Expanded(
                 child: CardColumn(
-                  cards: cardColumn3,
+                  cards: cardColumns[2],
                   onCardsAdded: (cards, index) {
                     setState(() {
-                      cardColumn3.addAll(cards);
+                      cardColumns[2].addAll(cards);
                       int length = _getListFromIndex(index).length;
                       _getListFromIndex(index)
                           .removeRange(length - cards.length, length);
@@ -123,10 +117,10 @@ class _GameScreenState extends State<GameScreen> {
               ),
               Expanded(
                 child: CardColumn(
-                  cards: cardColumn4,
+                  cards: cardColumns[3],
                   onCardsAdded: (cards, index) {
                     setState(() {
-                      cardColumn4.addAll(cards);
+                      cardColumns[3].addAll(cards);
                       int length = _getListFromIndex(index).length;
                       _getListFromIndex(index)
                           .removeRange(length - cards.length, length);
@@ -138,10 +132,10 @@ class _GameScreenState extends State<GameScreen> {
               ),
               Expanded(
                 child: CardColumn(
-                  cards: cardColumn5,
+                  cards: cardColumns[4],
                   onCardsAdded: (cards, index) {
                     setState(() {
-                      cardColumn5.addAll(cards);
+                      cardColumns[4].addAll(cards);
                       int length = _getListFromIndex(index).length;
                       _getListFromIndex(index)
                           .removeRange(length - cards.length, length);
@@ -153,10 +147,10 @@ class _GameScreenState extends State<GameScreen> {
               ),
               Expanded(
                 child: CardColumn(
-                  cards: cardColumn6,
+                  cards: cardColumns[5],
                   onCardsAdded: (cards, index) {
                     setState(() {
-                      cardColumn6.addAll(cards);
+                      cardColumns[5].addAll(cards);
                       int length = _getListFromIndex(index).length;
                       _getListFromIndex(index)
                           .removeRange(length - cards.length, length);
@@ -168,10 +162,10 @@ class _GameScreenState extends State<GameScreen> {
               ),
               Expanded(
                 child: CardColumn(
-                  cards: cardColumn7,
+                  cards: cardColumns[6],
                   onCardsAdded: (cards, index) {
                     setState(() {
-                      cardColumn7.addAll(cards);
+                      cardColumns[6].addAll(cards);
                       int length = _getListFromIndex(index).length;
                       _getListFromIndex(index)
                           .removeRange(length - cards.length, length);
@@ -323,13 +317,8 @@ class _GameScreenState extends State<GameScreen> {
 
   // Initialise a new game
   void _initialiseGame() {
-    cardColumn1 = [];
-    cardColumn2 = [];
-    cardColumn3 = [];
-    cardColumn4 = [];
-    cardColumn5 = [];
-    cardColumn6 = [];
-    cardColumn7 = [];
+    cardColumns = new List.generate(7, (i) => []);
+
 
     // Stores the card deck
     cardDeckClosed = [];
@@ -356,89 +345,15 @@ class _GameScreenState extends State<GameScreen> {
 
     Random random = Random();
 
-    // Add cards to columns and remaining to deck
-    for (int i = 0; i < 28; i++) {
-      int randomNumber = random.nextInt(allCards.length);
-
-      if (i == 0) {
+    for(int c = 0; c < 7; c++) {
+      for(int i = 0; i <= c; i++) {
+        int randomNumber = random.nextInt(allCards.length);
         PlayingCard card = allCards[randomNumber];
-        cardColumn1.add(
+        cardColumns[c].add(
           card
-            ..opened = true
-            ..faceUp = true,
+            ..opened = i == c
+            ..faceUp = i == c,
         );
-        allCards.removeAt(randomNumber);
-      } else if (i > 0 && i < 3) {
-        if (i == 2) {
-          PlayingCard card = allCards[randomNumber];
-          cardColumn2.add(
-            card
-              ..opened = true
-              ..faceUp = true,
-          );
-        } else {
-          cardColumn2.add(allCards[randomNumber]);
-        }
-        allCards.removeAt(randomNumber);
-      } else if (i > 2 && i < 6) {
-        if (i == 5) {
-          PlayingCard card = allCards[randomNumber];
-          cardColumn3.add(
-            card
-              ..opened = true
-              ..faceUp = true,
-          );
-        } else {
-          cardColumn3.add(allCards[randomNumber]);
-        }
-        allCards.removeAt(randomNumber);
-      } else if (i > 5 && i < 10) {
-        if (i == 9) {
-          PlayingCard card = allCards[randomNumber];
-          cardColumn4.add(
-            card
-              ..opened = true
-              ..faceUp = true,
-          );
-        } else {
-          cardColumn4.add(allCards[randomNumber]);
-        }
-        allCards.removeAt(randomNumber);
-      } else if (i > 9 && i < 15) {
-        if (i == 14) {
-          PlayingCard card = allCards[randomNumber];
-          cardColumn5.add(
-            card
-              ..opened = true
-              ..faceUp = true,
-          );
-        } else {
-          cardColumn5.add(allCards[randomNumber]);
-        }
-        allCards.removeAt(randomNumber);
-      } else if (i > 14 && i < 21) {
-        if (i == 20) {
-          PlayingCard card = allCards[randomNumber];
-          cardColumn6.add(
-            card
-              ..opened = true
-              ..faceUp = true,
-          );
-        } else {
-          cardColumn6.add(allCards[randomNumber]);
-        }
-        allCards.removeAt(randomNumber);
-      } else {
-        if (i == 27) {
-          PlayingCard card = allCards[randomNumber];
-          cardColumn7.add(
-            card
-              ..opened = true
-              ..faceUp = true,
-          );
-        } else {
-          cardColumn7.add(allCards[randomNumber]);
-        }
         allCards.removeAt(randomNumber);
       }
     }
@@ -497,19 +412,19 @@ class _GameScreenState extends State<GameScreen> {
       case 0:
         return cardDeckOpened;
       case 1:
-        return cardColumn1;
+        return cardColumns[0];
       case 2:
-        return cardColumn2;
+        return cardColumns[1];
       case 3:
-        return cardColumn3;
+        return cardColumns[2];
       case 4:
-        return cardColumn4;
+        return cardColumns[3];
       case 5:
-        return cardColumn5;
+        return cardColumns[4];
       case 6:
-        return cardColumn6;
+        return cardColumns[5];
       case 7:
-        return cardColumn7;
+        return cardColumns[6];
       case 8:
         return finalHeartsDeck;
       case 9:

@@ -126,7 +126,7 @@ class _TransformedCardState extends State<TransformedCard> {
   String _cardTypeToString() {
     switch (widget.playingCard.cardType) {
       case CardType.one:
-        return "1";
+        return "A";
       case CardType.two:
         return "2";
       case CardType.three:
